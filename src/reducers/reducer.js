@@ -26,6 +26,12 @@ const reducer = (state = initialState, action) => {
         ...state, registeredUsers: [...action.payload]
       }
     }
+
+    case ACTIONS.SET_CURRENT_USER: {
+      return {
+        ...state, currentUser: action.payload
+      }
+    }
     default: return state;
   }
 };

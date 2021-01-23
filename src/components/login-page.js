@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import {setCurrentUser, setUserLogged} from "../actions/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentUserToLStorage, setItem} from "../utils/localStorage";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +39,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const LoginPage = () => {
+const LoginPage = ({ history }) => {
+
+  const [ login, setLogin ] = useState('');
+  const [ password, setPassword ] = useState('');
+
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.registeredUsers);
 
   const classes = useStyles();
 
@@ -61,6 +71,9 @@ const LoginPage = () => {
               name="login"
               autoComplete="login"
               autoFocus
+              onChange={(event) => {
+                setLogin(event.target.value)
+              }}
             />
             <TextField
               variant="outlined"
@@ -72,6 +85,9 @@ const LoginPage = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => {
+                setPassword(event.target.value)
+              }}
             />
 
             <Button
@@ -80,6 +96,18 @@ const LoginPage = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={(event) => {
+                event.preventDefault();
+                users.forEach(u => {
+                  if (u.login === login && u.password === password) {
+                    dispatch(setUserLogged(true));
+                    dispatch(setCurrentUser(login));
+                    setItem('isLogged', true);
+                    setCurrentUserToLStorage(login);
+                    history.push(`cabinet/${login}`);
+                  }
+                });
+              }}
             >
               Sign In
             </Button>
@@ -97,4 +125,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default withRouter(LoginPage);

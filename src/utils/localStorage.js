@@ -1,7 +1,5 @@
 const setItem = (itemName, value) => {
-  if (value) {
-    localStorage.setItem(itemName, value);
-  }
+  localStorage.setItem(itemName, value);
 };
 
 const getItem = (itemName) => {
@@ -18,10 +16,20 @@ const setRegisteredUsers = (user) => {
   localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
 };
 
+const setCurrentUserToLStorage = (value) => {
+  localStorage.setItem('currentUser', value);
+};
+
+const getCurrentUserFromLStorage = () => {
+  return localStorage.getItem('currentUser');
+};
+
 
 export {
   setItem,
   getItem,
   setRegisteredUsers,
-  getRegisteredUsers
+  getRegisteredUsers,
+  setCurrentUserToLStorage,
+  getCurrentUserFromLStorage
 }

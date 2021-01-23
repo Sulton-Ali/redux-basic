@@ -9,6 +9,9 @@ import ImageIcon from '@material-ui/icons/Image';
 import WorkIcon from '@material-ui/icons/Work';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import Container from "@material-ui/core/Container";
+import {withRouter} from "react-router-dom";
+import {useSelector} from "react-redux";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,16 +21,24 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: '20px'
   }
 }));
 
-function CabinetPage() {
+function CabinetPage({ match }) {
   const classes = useStyles();
+
+  const { id } = match.params;
+
+  const user = useSelector(state => state.registeredUsers.find(u => u.login === id));
 
   return (
     <Container className={classes.container} >
+      <Typography variant="h2" color="primary">
+        { user.login.toUpperCase() }
+      </Typography>
       <List className={classes.root}>
         <ListItem>
           <ListItemAvatar>
@@ -35,7 +46,7 @@ function CabinetPage() {
               <ImageIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Photos" />
+          <ListItemText primary={user.firstName} />
         </ListItem>
         <ListItem>
           <ListItemAvatar>
@@ -43,7 +54,7 @@ function CabinetPage() {
               <WorkIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Work" />
+          <ListItemText primary={user.lastName} />
         </ListItem>
         <ListItem>
           <ListItemAvatar>
@@ -51,11 +62,11 @@ function CabinetPage() {
               <BeachAccessIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Vacation" />
+          <ListItemText primary={user.password} />
         </ListItem>
       </List>
     </Container>
   );
 }
 
-export default CabinetPage;
+export default withRouter(CabinetPage);

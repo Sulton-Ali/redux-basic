@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useDispatch} from "react-redux";
-import {setRegisteredUsers} from "../utils/localStorage";
-import {registeredNewUser, setUserLogged} from "../actions/actions";
+import {setCurrentUserToLStorage, setItem, setRegisteredUsers} from "../utils/localStorage";
+import {registeredNewUser, setCurrentUser, setUserLogged} from "../actions/actions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -133,8 +133,11 @@ function AuthPage({ history }) {
                 password
               };
               setRegisteredUsers(user);
-              setUserLogged(true);
+              setItem('isLogged', true);
+              setCurrentUserToLStorage(login);
+              dispatch(setUserLogged(true));
               dispatch(registeredNewUser(user));
+              dispatch(setCurrentUser(login));
               history.push(`cabinet/${login}`);
             }}
           >

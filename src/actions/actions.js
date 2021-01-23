@@ -1,7 +1,8 @@
 export const ACTIONS = {
   SET_USER_LOGGED: 'SET_USER_LOGGED',
   SET_REGISTERED_USER: 'SET_REGISTERED_USER',
-  SET_ALL_REGISTERED_USERS: 'SET_ALL_REGISTERED_USERS'
+  SET_ALL_REGISTERED_USERS: 'SET_ALL_REGISTERED_USERS',
+  SET_CURRENT_USER: 'SET_CURRENT_USER'
 };
 
 const registeredNewUser = (payload) => {
@@ -25,9 +26,17 @@ const setAllRegisteredUsers = (payload) => {
   }
 };
 
+const setCurrentUser = (payload) => {
+  return {
+    type: ACTIONS.SET_CURRENT_USER,
+    payload
+  }
+};
+
 
 export {
   registeredNewUser,
   setUserLogged,
-  setAllRegisteredUsers
+  setAllRegisteredUsers,
+  setCurrentUser
 }

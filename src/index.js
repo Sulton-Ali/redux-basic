@@ -8,7 +8,10 @@ import App from './App';
 
 import reducer from './reducers/reducer';
 
-const store = createStore(reducer);
+const store = createStore(
+  reducer, /* preloadedState, */
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store} >
